@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Auto API Test</title>
+</head>
+<body>
+    <h1>Auto API Test</h1>
+    <div id="results"></div>
+    
+    <script>
+        const results = document.getElementById('results');
+        
+        function log(message) {
+            console.log(message);
+            results.innerHTML += '<p>' + message + '</p>';
+        }
+        
+        async function testBackendConnection() {
+            log('Testing backend connection...');
+            try {
+                const response = await fetch('http://localhost:8080/health', {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                });
+                log('Health check response status: ' + response.status);
+                const data = await response.text();
+                log('Health check response: ' + data);
+            } catch (error) {
+                log('Health check error: ' + error.message);
+                log('Error type: ' + error.constructor.name);
+                log('Error stack: ' + error.stack);
+            }
+        }
+        
+        async function testLogin() {
+            log('Testing login...');
+            try {
+                const response = await fetch('http://localhost:8080/api/auth/login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        username: 'superadmin',
+                        password: 'SuperAdmin123!'
+                    })
+                });
+                log('Login response status: ' + response.status);
+                const data = await response.json();
+                log('Login response: ' + JSON.stringify(data, null, 2));
+                
+                if (data.token) {
+                    localStorage.setItem('token', data.token);
+                    testUsersAPI(data.token);
+                }
+            } catch (error) {
+                log('Login error: ' + error.message);
+                log('Error type: ' + error.constructor.name);
+                log('Error stack: ' + error.stack);
+            }
+        }
+        
+        async function testUsersAPI(token) {
+            log('Testing users API...');
+            try {
+                const response = await fetch('http://localhost:8080/api/users', {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': 'Bearer ' + token
+                    }
+                });
+                log('Users API response status: ' + response.status);
+                const data = await response.json();
+                log('Users API response: ' + JSON.stringify(data, null, 2));
+            } catch (error) {
+                log('Users API error: ' + error.message);
+                log('Error type: ' + error.constructor.name);
+                log('Error stack: ' + error.stack);
+                log('Network error details:');
+                log('- Error name: ' + error.name);
+                log('- Error cause: ' + (error.cause || 'none'));
+                
+                // Check if it's a CORS error
+                if (error.message.includes('CORS') || error.message.includes('fetch')) {
+                    log('This appears to be a CORS or network connectivity issue');
+                }
+            }
+        }
+        
+        // Auto-run tests
+        window.onload = function() {
+            log('Starting auto tests...');
+            setTimeout(testBackendConnection, 1000);
+            setTimeout(testLogin, 3000);
+        };
+    </script>
+</body>
+</html>

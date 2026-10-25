@@ -15,7 +15,7 @@ Central Monitoring System (CMS) is a full-stack platform for monitoring device h
 
 ## Project Objective
 
-Provide a centralised, real-time view of device operations across sites, enabling support teams to quickly detect, prioritise, and resolve outages or device faults.
+Provide a centralised, real-time view of device operations across sites by collecting heartbeat data, visualising status trends through charts, and maintaining device status history, enabling support teams to quickly detect, prioritise, and resolve outages or device faults.
 
 ## Tech Stack
 

@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>API Test</title>
+</head>
+<body>
+    <h1>API Connection Test</h1>
+    <button onclick="testLogin()">Test Login</button>
+    <button onclick="testUsers()">Test Users API</button>
+    <button onclick="testDirectFetch()">Test Direct Fetch</button>
+    <div id="results"></div>
+
+    <script>
+        const API_BASE_URL = 'http://localhost:8080/api';
+        let authToken = null;
+
+        function log(message) {
+            console.log(message);
+            document.getElementById('results').innerHTML += '<p>' + message + '</p>';
+        }
+
+        async function testLogin() {
+            log('🚀 Testing login...');
+            try {
+                const response = await fetch(`${API_BASE_URL}/auth/login`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        username: 'superadmin',
+                        password: 'SuperAdmin123!'
+                    })
+                });
+                
+                log(`Login response status: ${response.status}`);
+                const data = await response.json();
+                log(`Login response: ${JSON.stringify(data)}`);
+                
+                if (data.success && data.token) {
+                    authToken = data.token;
+                    log('✅ Login successful, token stored');
+                } else {
+                    log('❌ Login failed');
+                }
+            } catch (error) {
+                log(`❌ Login error: ${error.message}`);
+                console.error('Login error details:', error);
+            }
+        }
+
+        async function testUsers() {
+            if (!authToken) {
+                log('❌ No auth token, please login first');
+                return;
+            }
+            
+            log('🔍 Testing users API...');
+            try {
+                const response = await fetch(`${API_BASE_URL}/users`, {
+                    method: 'GET',
+                    headers: {
+                        'Authorization': `Bearer ${authToken}`,
+                        'Content-Type': 'application/json'
+                    }
+                });
+                
+                log(`Users API response status: ${response.status}`);
+                const data = await response.json();
+                log(`Users API response: ${JSON.stringify(data).substring(0, 200)}...`);
+                log('✅ Users API successful');
+            } catch (error) {
+                log(`❌ Users API error: ${error.message}`);
+                console.error('Users API error details:', error);
+            }
+        }
+
+        async function testDirectFetch() {
+            log('🌐 Testing direct fetch without auth...');
+            try {
+                const response = await fetch(`${API_BASE_URL}/health`, {
+                    method: 'GET'
+                });
+                
+                log(`Health check response status: ${response.status}`);
+                const data = await response.text();
+                log(`Health check response: ${data}`);
+                log('✅ Health check successful');
+            } catch (error) {
+                log(`❌ Health check error: ${error.message}`);
+                console.error('Health check error details:', error);
+            }
+        }
+    </script>
+</body>
+</html>

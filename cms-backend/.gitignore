@@ -1,0 +1,67 @@
+# === CMS GitIgnore ===
+
+# Ignore build, logs, and cache
+/build/
+*.log
+*.tmp
+*.temp
+.DS_Store
+node_modules/
+__pycache__/
+.env*
+.vscode/
+.idea/
+*.class
+*.jar
+*.war
+*.zip
+*.tar.gz
+
+# OpenJDK related folders
+OpenJDK*/
+jdk*/
+jre*/
+*.jdk/
+*.jre/
+
+# Target output
+target/
+dist/
+out/
+bin/
+*.pid
+
+# IDE
+*.iml
+*.ipr
+*.iws
+nbproject/
+*.swp
+
+# Python & scripts
+*.py[cod]
+*.sqlite
+*.db
+*.h2.*
+
+# Docker
+docker-compose.override.yml
+.dockerignore
+
+# Application logs
+cms.log
+cms-*.log
+device-status.log
+csv-exports/
+
+# Security / Secrets
+*.key
+*.pem
+*.crt
+*.jks
+config/local/
+config/secret/
+
+# Backup
+backup/
+backups/

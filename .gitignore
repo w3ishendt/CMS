@@ -52,3 +52,6 @@ cms-backend/src/main/resources/application-*.properties
 # Potential credential exports from script generation
 *service_account*.json
 *credentials*.json
+
+# Backend log exports
+cms-backend/logs/*.csv

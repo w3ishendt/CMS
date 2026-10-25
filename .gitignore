@@ -1,1 +1,54 @@
-# CMS
+# Python bytecode and caches
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environments
+venv/
+.venv/
+env/
+ENV/
+
+# Environment files
+.env
+.env.*
+
+# Tool caches
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# IDE and OS files
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Local application data
+*.db
+*.log
+agent_status.json
+agent_status.txt
+instance/
+
+# Sensitive files and credentials
+AppScript.txt
+CMS Setup Instructions.txt
+
+# Backend local secrets
+cms-backend/src/main/resources/application.properties
+cms-backend/src/main/resources/application-*.properties
+!cms-backend/src/main/resources/application-example.properties
+!cms-backend/src/main/resources/application-example-*.properties
+
+# Generated monitor scripts and local runtime artifacts
+/generated-monitors/
+/device-ip/
+*.pid
+*.lock
+
+# Potential credential exports from script generation
+*service_account*.json
+*credentials*.json

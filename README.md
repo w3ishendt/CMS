@@ -59,7 +59,7 @@ cms/
    ```
 
 3. **Configure backend credentials**
-   - In the `cms-backend/src/main/resources/application.properties`, edit the following credentials:
+   - Copy `application-example.properties` to `application.properties` and fill in your values:
 
    ```properties
    # Database Configuration (PostgreSQL)
